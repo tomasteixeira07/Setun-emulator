@@ -3,7 +3,6 @@
 
 
 #include "trit.h"
-#include "word18.h"
 #include <string>
 #include <iostream>
 

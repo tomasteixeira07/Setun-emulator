@@ -1,5 +1,4 @@
 #include "cpu.h"
-#include "word18.h"
 
 
 void print_reg_size(const Trit array[], const unsigned char &size = 5){

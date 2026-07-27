@@ -1,5 +1,5 @@
 #include "trit.h"
-#include "word18.h"
+#include "word.h"
 #include "cpu.h"
 #include "tests.h"
 

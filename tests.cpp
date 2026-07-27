@@ -1,11 +1,8 @@
-
-#include "word18.h"
-#include "cpu.h"
-
-
+#include "tests.h"
 //opcodes used:
 // +-- = {-1,-1,1} = case 5 
-void test_shift(){
+unsigned char test_shift(){
+    unsigned char ret = 1;
     std::cout << "Shift Test\n";
     CPU cpu;
     Trit addrs[][5] = {{1,1,0,0,0}, {1,0,0,0,0}, {0,0,0,0,0}};
@@ -23,11 +20,14 @@ void test_shift(){
     else{
         std::cout << "Expected: 4    Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void test_add_in_S(){
+unsigned char test_add_in_S(){
+    unsigned char ret = 1;
     std::cout << "ADD in S Test\n";
     CPU cpu;
     Trit addrs[][5] = {{1,1,0,0,0}, {-1,-1,1,0,0}, {0,0,0,0,0}};
@@ -47,11 +47,14 @@ void test_add_in_S(){
     else{
         std::cout << "Expected: 13    Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void test_sub_in_S(){
+unsigned char test_sub_in_S(){
+    unsigned char ret = 1;
     std::cout << "SUB in S Test\n";
     CPU cpu;
     Trit addrs[][5] = {{1,1,0,0,0}, {-1,-1,1,0,0}, {0,0,0,0,0}};
@@ -71,11 +74,14 @@ void test_sub_in_S(){
     else{
         std::cout << "Expected: -5    Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void test_add_in_F(){
+unsigned char test_add_in_F(){
+    unsigned char ret = 1;
     std::cout << "ADD in F Test\n";
     CPU cpu;
     Trit addrs[][5] = {{1,1,0,0,0}, {-1,-1,1,0,0}, {0,0,0,0,0}};
@@ -95,11 +101,14 @@ void test_add_in_F(){
     else{
         std::cout << "Expected: 13    Obtained:";
         cpu.print_registers('F');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void mul_1(){
+unsigned char mul_1(){
+    unsigned char ret = 1;
     std::cout << "Mul 1 Test\n";
     CPU cpu;
     Trit addrs[][5] = {{-1,-1,1,0,0}, {0,-1,1,0,0}, {1,-1,1,0,0}, {0,0,0,0,0}};
@@ -121,11 +130,14 @@ void mul_1(){
     else{
         std::cout << "Expected: 32    Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void mul_3(){
+unsigned char mul_3(){
+    unsigned char ret = 1;
     std::cout << "Mul 3 Test\n";
     CPU cpu;
     Trit addrs[][5] = {{-1,-1,1,0,0}, {0,-1,1,0,0}, {1,-1,1,0,0}, {0,0,0,0,0}};
@@ -147,11 +159,14 @@ void mul_3(){
     else{
         std::cout << "Expected: 34    Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void mul_2(){
+unsigned char mul_2(){
+    unsigned char ret = 1;
     std::cout << "Mul 3 Test\n";
     CPU cpu;
     Trit addrs[][5] = {{-1,-1,1,0,0}, {0,-1,1,0,0}, {1,-1,1,0,0}, {0,0,0,0,0}};
@@ -173,11 +188,14 @@ void mul_2(){
     else{
         std::cout << "Expected: 24 Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void jump(){
+unsigned char jump(){
+    unsigned char ret = 1;
     std::cout << "JUMP Test\n";
     CPU cpu;
     Trit addrs[][5] = { {1,1,1,0,0},{0,0,1,0,0} ,{-1,1,1,0,0}, {0,1,1,0,0},{0,0,0,0,0}};
@@ -198,11 +216,14 @@ void jump(){
     else{
         std::cout << "Expected: 8 Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void jump_w_1(){
+unsigned char jump_w_1(){
+    unsigned char ret = 1;
     std::cout << "JUMP if positive Test\n";
     CPU cpu;
     Trit addrs[][5] = { {1,1,1,0,0},{0,0,1,0,0} ,{-1,1,1,0,0}, {0,1,1,0,0},{0,0,0,0,0}};
@@ -224,11 +245,14 @@ void jump_w_1(){
     else{
         std::cout << "Expected: 8 Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void jump_w_negative(){
+unsigned char jump_w_negative(){
+    unsigned char ret = 1;
     std::cout << "JUMP if negative Test\n";
     CPU cpu;
     Trit addrs[][5] = { {1,1,1,0,0},{0,0,1,0,0} ,{-1,1,1,0,0}, {0,1,1,0,0},{0,0,0,0,0}};
@@ -250,11 +274,14 @@ void jump_w_negative(){
     else{
         std::cout << "Expected: -8 Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void jump_zero(){
+unsigned char jump_zero(){
+    unsigned char ret = 1;
     std::cout << "JUMP if 0 Test\n";
     CPU cpu;
     Trit addrs[][5] = { {1,1,1,0,0},{0,0,1,0,0} ,{-1,1,1,0,0}, {0,1,1,0,0},{0,0,0,0,0}};
@@ -276,11 +303,14 @@ void jump_zero(){
     else{
         std::cout << "Expected: 0 Obtained:";
         cpu.print_registers('S');
+        ret = 0;
     }
+    return ret;
 }
 
 
-void bitwise_mul(){
+unsigned char bitwise_mul(){
+    unsigned char ret = 1;
     std::cout << "Bitwise Mull Test\n";
     CPU cpu;
     Trit addrs[][5] = {{1,1,0,0,0}, {-1,-1,1,0,0}, {0,0,0,0,0}};
@@ -299,11 +329,14 @@ void bitwise_mul(){
     }
     else{
         std::cout << "ERROR";
+        ret = 0;
     }
+    return ret;
 }
 
 
-void write_from_S(){
+unsigned char write_from_S(){
+    unsigned char ret = 1;
     std::cout << "Write from S Test\n";
     CPU cpu;
     Trit addrs[][5] = {{1,1,0,0,0}, {-1,-1,1,0,0}, {0,0,0,0,0}};
@@ -321,11 +354,14 @@ void write_from_S(){
     else{
         std::cout << "Expected: 10    Obtained:";
         cpu.return_memory(5).print_();
+        ret = 0;
     }
+    return ret;
 }
 
 
-void write_from_F(){
+unsigned char write_from_F(){
+    unsigned char ret = 1;
     std::cout << "Write from F Test\n";
     CPU cpu;
     Trit addrs[][5] = {{1,1,0,0,0}, {-1,-1,1,0,0}, {0,0,0,0,0}};
@@ -343,11 +379,14 @@ void write_from_F(){
     else{
         std::cout << "Expected: 10    Obtained:";
         cpu.return_memory(5).print_();
+        ret = 0;
     }
+    return ret;
 }
 
 
-void write_from_C(){
+unsigned char write_from_C(){
+    unsigned char ret = 1;
     std::cout << "Write from C Test\n";
     CPU cpu;
     Trit addrs[][5] = {{1,1,0,0,0}, {-1,-1,1,0,0}, {0,0,0,0,0}};
@@ -363,11 +402,14 @@ void write_from_C(){
     else{
         std::cout << "Expected: 2    Obtained:";
         cpu.return_memory(5).print_();
+        ret = 0;
     }
+    return ret;
 }
 
 
-void add_and_save_in_F(){
+unsigned char add_and_save_in_F(){
+    unsigned char ret = 1;
     std::cout << "ADD in C + Move F Test\n";
     CPU cpu;
     Trit addrs[][5] = {{-1,-1,1,0,0}, {0,0,0,0,0}};
@@ -385,27 +427,32 @@ void add_and_save_in_F(){
     else{
         std::cout << "Expected: 10    Obtained:";
         cpu.return_F_register().print_();
+        ret = 0;
     }
+    return ret;
 }
 
 
 void test_all() {
-    test_shift();
-    test_add_in_S();
-    test_sub_in_S();
-    test_add_in_F();
-    mul_1();
-    mul_2();
-    mul_3();
-    jump();
-    jump_w_1();
-    jump_w_negative();
-    jump_zero();    
-    bitwise_mul();
-    write_from_S();
-    write_from_F();
-    write_from_C();
-    add_and_save_in_F();
+    unsigned short total;
+    total 
+        = test_shift()
+        + test_add_in_S()
+        + test_sub_in_S()
+        + test_add_in_F()
+        + mul_1()
+        + mul_2()
+        + mul_3()
+        + jump()
+        + jump_w_1()
+        + jump_w_negative()
+        + jump_zero()
+        + bitwise_mul()
+        + write_from_S()
+        + write_from_F()
+        + write_from_C()
+        + add_and_save_in_F();
+    std::cout << "Passed " << total << "/16\n";
 }
 
 
