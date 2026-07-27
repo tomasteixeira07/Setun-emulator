@@ -28,8 +28,12 @@ class CPU{
         void decode();
         void execute();
         void run();
+        Word18 return_S_register() const;
+        Word18 return_F_register() const;
+        Word18 return_R_register() const;
         void print_registers(const char &reg) const;
         void load_instructions(const Trit addrs[][5], const Trit opcodes[][3], const Trit modifiers[], const unsigned char &size);
+        void load_instructions2(const Trit addrs[][5], const std::string opcodes[], const Trit modifiers[], const unsigned char &size);
         void load_program(const Word18 program[], const unsigned char &size);
         void update_sign();
         void update_pc();
@@ -37,6 +41,7 @@ class CPU{
         Word18 make_instr(const Trit addr[5], const Trit opcode[3], const Trit &modifier = 0);
         Word18 get_operand();
         void set_memory(const unsigned char &addr, const Word18 &value);
+        Word18 return_memory(const unsigned char &addr);
 
     private:
         Word18 current_instruction;

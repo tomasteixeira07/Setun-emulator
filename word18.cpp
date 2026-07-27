@@ -1,9 +1,7 @@
 #include "word18.h"
 
 
-Word18::Word18(){
-    for(unsigned char i = 0; i < 18; i++){array[i]=0;}
-}
+Word18::Word18(){}
 
 
 Word18::Word18(int decimal){
@@ -32,13 +30,8 @@ Word18::Word18(int decimal){
 
 
 Word18::Word18(const Trit array[], unsigned char size){
-    unsigned char count;
     for (unsigned char i = 0; i < size; i++){
         this->array[i] = array[i];
-        count = i;
-    }
-    for (unsigned char i = count; i < 18; i++){
-        this->array[i] = 0;
     }
 }
 
@@ -113,15 +106,7 @@ Word18 Word18::operator-(Word18 tri) const{
 
 
 Word18 Word18::operator*(Word18 tri) const{
-    Trit left, right;
-    for (unsigned char i = 0; i < 18; i++){
-        left = getTri(i);
-        right = tri.getTri(i);
-        if (left == 0 or right == 0){tri[i] = 0;}
-        else if (right == left){}
-        else{tri[i] = - tri[i];}
-    }
-    return tri;
+    return Word18(tri.tri_to_dec() * tri_to_dec());
 }
 
 

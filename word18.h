@@ -26,7 +26,7 @@ class Word18{
 
 
     private:
-        Trit array[18];
+        Trit array[18]{};
 };
 
 

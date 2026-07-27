@@ -1,4 +1,5 @@
 #include "cpu.h"
+#include "word18.h"
 
 
 void print_reg_size(const Trit array[], const unsigned char &size = 5){
@@ -66,8 +67,6 @@ Word18 CPU::get_operand(){
     int addr = trit_to_decimal(operand_address, 5) + address_modifier * trit_to_decimal(register_F, 5);
     if (addr >= 0 && addr < 162) {
         oper = memory[addr];
-        //std::cout << addr << '\n';
-        //oper.print_();
     }
     return oper;
 }
@@ -82,10 +81,10 @@ void CPU::update_pc(){
 
 
 int CPU::trit_to_int_operand(){
-    Word18 storage_word = get_operand();
+    //Word18 storage_word = get_operand();
     int storage = 0;
     for (unsigned char i = 0; i < 5; i++){
-        storage += storage_word[i] * potencia(i);
+        storage += operand_address[i] * potencia(i);
     }
     return storage;
 }
@@ -136,14 +135,12 @@ void CPU::execute(){
             break;}
         
         case 1:{
-            int decimal = trit_to_int_operand();
-            memory[decimal] = Word18(register_C, 5); 
+            memory[trit_to_int_operand()] = Word18(register_C, 5); 
             break;
         }
         
         case -1:{
-            int decimal = trit_to_int_operand();
-            memory[decimal] = Word18(register_F, 5); 
+            memory[trit_to_int_operand()] = Word18(register_F, 5); 
             break;
         }
 
@@ -173,24 +170,13 @@ void CPU::execute(){
         case 6:{
             Word18 operand = get_operand();
             for (unsigned char i = 0; i < 18; i++){
-                Trit left = register_S[i];
-                Trit right = operand[i];
-                if (left == 0 or right == 0){
-                    register_S[i] = 0;
-                }
-                else if (left != right){
-                    register_S[i] = 1;
-                }
-                else{register_S[i] = -1;}
+                register_S[i] *= operand[i];
             }
             break;
         }
 
         case -5:{
-            int decimal = trit_to_int_operand();
-            for (unsigned char i = 0; i < 18; i++){
-                memory[decimal][i] = register_S[i];
-            }
+            memory[trit_to_int_operand()] = register_S;
             break;}
 
         case -4:{
@@ -203,8 +189,7 @@ void CPU::execute(){
             break;}
 
         case 13:{
-            Word18 operand = get_operand();
-            register_S = register_S + (operand * register_R);
+            register_S = register_S + (get_operand() * register_R);
             update_sign();
             break;}
         
@@ -218,7 +203,7 @@ void CPU::execute(){
             register_S = get_operand() * register_R;
             update_sign();
             break;}
-        
+
         case -6:{
             int decimal = trit_to_int_operand();
             while (decimal > 17){decimal -= 18;}
@@ -253,13 +238,15 @@ void CPU::execute(){
 void CPU::run(){
     run_ = 1;
     while(run_){
-        print_registers('C');
-        print_registers('S');
-        //memory[4].print_();
+        //print_registers('C');
+        //Word18(register_C,5).print_();
+        //print_registers('S');
+        //print_registers('R');
+        // get_operand().print_();
+        
         fetch();
         decode();
         execute();
-
     }
 }
 
@@ -289,6 +276,37 @@ void CPU::load_instructions(const Trit addrs[][5], const Trit opcodes[][3], cons
 }
 
 
+void CPU::load_instructions2(const Trit addrs[][5], const std::string opcodes[], const Trit modifiers[], const unsigned char &size){
+    unsigned char count = 0;
+    Trit array[3];
+    while (count < size){
+        memory[count] = make_instr(addrs[count], make_opcode(opcodes[count], array), modifiers[count]);
+        count++;
+    }
+    program_size = count;
+}
+
+
 void CPU::set_memory(const unsigned char &addr, const Word18 &value){
     memory[addr] = value;
+}
+
+
+Word18 CPU::return_S_register() const {
+    return register_S;
+}
+
+
+Word18 CPU::return_R_register() const {
+    return register_R;
+}
+
+
+Word18 CPU::return_F_register() const{
+    return Word18(register_F, 5);
+}
+
+
+Word18 CPU::return_memory(const unsigned char &addr){
+    return memory[addr];
 }

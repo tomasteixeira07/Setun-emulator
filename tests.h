@@ -1,0 +1,17 @@
+void test_shift();
+void test_add_in_S();
+void test_sub_in_S();
+void test_add_in_F();
+void mul_1();
+void mul_2();
+void mul_3();
+void jump();
+void jump_w_1();
+void jump_w_negative();
+void jump_zero();    
+void bitwise_mul();
+void write_from_S();
+void write_from_F();
+void test_all();
+void write_from_C();
+void add_and_save_in_F();

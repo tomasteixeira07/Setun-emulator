@@ -37,3 +37,20 @@ void tri_plus_one(Trit array[], const unsigned char &size){
     if(array[i] == -1){array[i] = 0;}
     else{array[i] = 1;}    
 }
+
+
+Trit conver_signal_to_trit(const char &signal){
+    Trit final;
+    if (signal == '+'){final = 1;}
+    else if (signal == '-'){final = -1;}
+    else{final = 0;}
+    return final;
+}
+
+
+Trit* make_opcode(const std::string opcode, Trit array[]){
+    array[0] = conver_signal_to_trit(opcode[2]);
+    array[1] = conver_signal_to_trit(opcode[1]);
+    array[2] = conver_signal_to_trit(opcode[0]);
+    return array;
+}
