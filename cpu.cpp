@@ -1,4 +1,5 @@
 #include "cpu.h"
+#include "word.h"
 
 
 void print_reg_size(const Trit array[], const unsigned char &size = 5){
@@ -28,7 +29,7 @@ void CPU::print_registers(const char &reg) const{
 }
 
 
-void CPU::load_program(const Word18 program[], const unsigned char &size){
+void CPU::load_program(const Word9 program[], const unsigned char &size){
     for (unsigned char i = 0; i < size; i++){
         memory[i] = program[i];
     }
@@ -65,7 +66,7 @@ Word18 CPU::get_operand(){
     Word18 oper = Word18();
     int addr = trit_to_decimal(operand_address, 5) + address_modifier * trit_to_decimal(register_F, 5);
     if (addr >= 0 && addr < 162) {
-        oper = memory[addr];
+        oper = return_memory(addr);
     }
     return oper;
 }
@@ -134,12 +135,12 @@ void CPU::execute(){
             break;}
         
         case 1:{
-            memory[trit_to_int_operand()] = Word18(register_C, 5); 
+            memory[trit_to_int_operand()] = Word9(register_C, 5); 
             break;
         }
         
         case -1:{
-            memory[trit_to_int_operand()] = Word18(register_F, 5); 
+            memory[trit_to_int_operand()] = Word9(register_F, 5); 
             break;
         }
 
@@ -152,9 +153,7 @@ void CPU::execute(){
         }
 
         case -2:{
-            Word18 operand = get_operand();
-            Word18 oper_C = Word18(register_C, 5);
-            operand = operand + oper_C;
+            Word18 operand = get_operand() + Word18(register_C, 5);
             for (unsigned char i = 0; i < 5; i++){
                 register_F[i] = operand[i];
             }
@@ -175,13 +174,11 @@ void CPU::execute(){
         }
 
         case -5:{
-            memory[trit_to_int_operand()] = register_S;
+            set_memory(trit_to_int_operand(), register_S);
             break;}
 
         case -4:{
-            Word18 operand = get_operand();
-            Word18 oper_F = Word18(register_F, 5);
-            operand = operand + oper_F;
+            Word18 operand = get_operand() + Word18(register_F, 5);
             for (unsigned char i = 0; i < 5; i++){
                 register_F[i] = operand[i];
             }
@@ -252,8 +249,8 @@ void CPU::run(){
 CPU::CPU(){}
 
 
-Word18 CPU::make_instr(const Trit addr[5], const Trit opcode[3], const Trit &modifier){
-    Word18 instr;
+Word9 CPU::make_instr(const Trit addr[5], const Trit opcode[3], const Trit &modifier){
+    Word9 instr;
     for (unsigned char i = 0; i < 5; i++){
         instr[i] = addr[i];
     }
@@ -286,8 +283,13 @@ void CPU::load_instructions2(const Trit addrs[][5], const std::string opcodes[],
 }
 
 
-void CPU::set_memory(const unsigned char &addr, const Word18 &value){
-    memory[addr] = value;
+void CPU::set_memory(int addr, Word18 value){
+    for (unsigned char i = 0; i < 9; i++){
+        memory[addr][i] = value[i];
+    }
+    for (unsigned char i = 9; i < 18; i++){
+        memory[addr + 1][i - 9] = value[i];
+    }
 }
 
 
@@ -307,5 +309,12 @@ Word18 CPU::return_F_register() const{
 
 
 Word18 CPU::return_memory(const unsigned char &addr){
-    return memory[addr];
+    Word18 retr;
+    for (unsigned char i = 0; i < 9; i++){
+        retr[i] = memory[addr][i];
+    }
+    for (unsigned char i = 9; i < 18; i++){
+            retr[i] = memory[addr + 1][i - 9];
+        }
+    return retr;
 }

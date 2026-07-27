@@ -34,30 +34,32 @@ class CPU{
         void print_registers(const char &reg) const;
         void load_instructions(const Trit addrs[][5], const Trit opcodes[][3], const Trit modifiers[], const unsigned char &size);
         void load_instructions2(const Trit addrs[][5], const std::string opcodes[], const Trit modifiers[], const unsigned char &size);
-        void load_program(const Word18 program[], const unsigned char &size);
+        void load_program(const Word9 program[], const unsigned char &size);
         void update_sign();
         void update_pc();
         int trit_to_int_operand();
-        Word18 make_instr(const Trit addr[5], const Trit opcode[3], const Trit &modifier = 0);
+        Word9 make_instr(const Trit addr[5], const Trit opcode[3], const Trit &modifier = 0);
         Word18 get_operand();
-        void set_memory(const unsigned char &addr, const Word18 &value);
+
+        void set_memory(int addr, Word18 value);
         Word18 return_memory(const unsigned char &addr);
+        
+        
 
     private:
-        Word18 current_instruction;
+        Word9 current_instruction;
         unsigned short program_size;
-
         bool run_ = true;
         Trit opcode[3];
         Trit operand_address[5]; 
         Trit address_modifier;
-        Word18 register_S; //acumulador
-        Word18 register_R; //multiplicador
-        Trit register_F[5]; //indice(enderaçamento)
+        Word18 register_S;
+        Word18 register_R;
+        Trit register_F[5];
         Trit register_C[5]; //PC
         Trit omega; //sinal
         
-        Word18 memory[162];
+        Word9 memory[162];
 
 };
 
